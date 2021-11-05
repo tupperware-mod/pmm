@@ -1,0 +1,30 @@
+version: '3.3'
+ 
+networks:
+  net:
+    driver: bridge
+
+services:
+  authelia:
+    image: authelia/authelia
+    container_name: authelia
+    volumes:
+      - ./authelia:/config
+    networks:
+      - net
+    ports:
+      - 1891:9091
+    restart: unless-stopped
+    environment:
+
+  redis:
+    image: redis:alpine
+    container_name: redis_authelia
+    volumes:
+      - ./redis:/data
+    networks:
+      - net
+    expose:
+      - 6380
+    restart: unless-stopped
+    environment:

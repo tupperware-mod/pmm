@@ -1,0 +1,52 @@
+host: 0.0.0.0
+port: 1891
+log_level: info
+jwt_secret: dG6UFxEnhyB30qwspzBdracs4kH8W7n7
+default_redirection_url: https://pav.dnpm.fr
+ 
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+ 
+access_control:
+  default_policy: deny
+  rules:
+    - domain:
+        #- "auth.example.com"
+      policy: bypass
+    - domain:
+        #- "example.com"
+        #- "*.example.com"
+        - "https://pav.dnpm.fr"
+      policy: one_factor
+ 
+session:
+  name: authelia_session
+  secret: dG6UFxEnhyB30qwspzBdracs4kH8W7n7
+  expiration: 12h           # 12 hours
+  inactivity: 45m           # 45 minutes
+  remember_me_duration: 1M  # 1 month
+  domain: example.com
+ 
+  redis:
+    host: redis_authelia
+    port: 6379
+ 
+regulation:
+  max_retries: 3
+  find_time: 5m
+  ban_time: 15m
+ 
+storage:
+  local:
+    path: /config/db.sqlite3
+ 
+notifier:
+  #filesystem:
+    #filename: /config/notification.txt
+  smtp:
+    username: test@gmail.com
+    password: <gmail_password>
+    host: smtp.gmail.com
+    port: 587
+    sender: test@gmail.com

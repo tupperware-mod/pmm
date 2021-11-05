@@ -1,0 +1,8 @@
+users:
+  <username>:
+    displayname: "mios"
+    # Generate with docker run authelia/authelia:latest authelia hash-password <your-password>
+    password: "mios"
+    email: housin.jeridi@mios.fr
+    groups:
+      - admins
