@@ -1,0 +1,51 @@
+version: '3'
+services: 
+  proxy:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - /opt/lns_mios/app_pmm/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nodered0
+    networks:
+      - net
+    ports:
+      - "1891:80"
+      - "1892:443"
+
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    ports:
+      - 1893:80
+
+  nodered0:
+    container_name: nodered0
+    image: housdock/node-red-pmm:1.0
+    restart: always
+    user: root
+    ports:
+      - "1894:1880"
+    volumes:
+     - /opt/lns_mios/volume/client0:/data
+    networks:
+     - net
+     - chirpstack-docker_default
+
+  nodered1:
+    image: housdock/node-red-pmm:1.0
+    restart: always
+    user: root
+    ports:
+      - "1895:1880"
+    volumes:
+     - /opt/lns_mios/volume/client1:/data
+    networks:
+     - net
+     - chirpstack-docker_default
+
+volumes:
+  nodered0_data:
+  nodered1_data:
+networks:
+  net:
